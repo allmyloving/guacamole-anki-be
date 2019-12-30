@@ -1,8 +1,10 @@
-package com.guacamole.controller.cards
+package com.guacamole.cards
 
-import com.guacamole.controller.cards.model.CreateOrUpdateCardRequest
-import com.guacamole.controller.cards.model.CreateCardResponse
-import com.guacamole.controller.cards.repository.CardsRepository
+import com.guacamole.cards.model.CardsModel
+import com.guacamole.cards.model.ChangeRevisionPeriodRequest
+import com.guacamole.cards.model.CreateCardResponse
+import com.guacamole.cards.model.CreateOrUpdateCardRequest
+import com.guacamole.cards.repository.CardsRepository
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -10,7 +12,7 @@ class CardsController(
         private val cardsRepository: CardsRepository
 ) {
     @GetMapping("/cards")
-    fun get() = cardsRepository.getAll()
+    fun get() = CardsModel.from(cardsRepository.getAll())
 
     @PostMapping("/cards")
     fun create(@RequestBody request: CreateOrUpdateCardRequest) = CreateCardResponse(cardsRepository.create(request))
@@ -20,4 +22,7 @@ class CardsController(
 
     @DeleteMapping("/cards/{id}")
     fun delete(@PathVariable id: String) = cardsRepository.delete(id)
+
+    @PatchMapping("/cards/{id}")
+    fun changeRevisionPeriod(@PathVariable id: String, @RequestBody request: ChangeRevisionPeriodRequest) = cardsRepository.changeRevisionPeriod(id, request)
 }

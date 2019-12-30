@@ -1,4 +1,4 @@
-package com.guacamole.controller
+package com.guacamole
 
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
