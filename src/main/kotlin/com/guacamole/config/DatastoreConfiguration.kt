@@ -1,4 +1,4 @@
-package ua.serdiuk.guacamole.datastore
+package com.guacamole.config
 
 import com.google.cloud.datastore.DatastoreOptions
 import org.springframework.context.annotation.Bean

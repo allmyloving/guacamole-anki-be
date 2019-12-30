@@ -1,12 +1,12 @@
-package ua.serdiuk.guacamole.controller.cards
+package com.guacamole.controller.cards
 
+import com.guacamole.controller.cards.model.CreateCardRequest
+import com.guacamole.controller.cards.model.CreateCardResponse
+import com.guacamole.controller.cards.repository.CardsRepository
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import ua.serdiuk.guacamole.controller.cards.model.CreateCardRequest
-import ua.serdiuk.guacamole.controller.cards.model.CreateCardResponse
-import ua.serdiuk.guacamole.controller.cards.repository.CardsRepository
 
 @RestController
 class CardsController(

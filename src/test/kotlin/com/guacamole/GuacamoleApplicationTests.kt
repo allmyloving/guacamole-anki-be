@@ -1,4 +1,4 @@
-package ua.serdiuk.guacamole
+package com.guacamole
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest

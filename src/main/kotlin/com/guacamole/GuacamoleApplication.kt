@@ -1,4 +1,4 @@
-package ua.serdiuk.guacamole
+package com.guacamole
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class GuacamoleApplication
 
 fun main(args: Array<String>) {
-	runApplication<GuacamoleApplication>(*args)
+    runApplication<GuacamoleApplication>(*args)
 }

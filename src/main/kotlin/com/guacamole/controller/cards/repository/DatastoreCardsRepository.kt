@@ -1,13 +1,13 @@
-package ua.serdiuk.guacamole.controller.cards.repository
+package com.guacamole.controller.cards.repository
 
 import com.google.cloud.Timestamp
 import com.google.cloud.datastore.Datastore
 import com.google.cloud.datastore.Entity
 import com.google.cloud.datastore.Query
+import com.guacamole.controller.cards.model.CardModel
+import com.guacamole.controller.cards.model.CardsModel
+import com.guacamole.controller.cards.model.CreateCardRequest
 import org.springframework.stereotype.Repository
-import ua.serdiuk.guacamole.controller.cards.model.CardModel
-import ua.serdiuk.guacamole.controller.cards.model.CardsModel
-import ua.serdiuk.guacamole.controller.cards.model.CreateCardRequest
 
 
 @Repository

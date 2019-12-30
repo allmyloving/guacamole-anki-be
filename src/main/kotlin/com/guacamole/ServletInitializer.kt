@@ -1,4 +1,4 @@
-package ua.serdiuk.guacamole
+package com.guacamole
 
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
