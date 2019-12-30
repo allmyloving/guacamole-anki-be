@@ -1,6 +1,6 @@
 package com.guacamole.controller.cards.model
 
-data class CreateCardRequest(
+data class CreateOrUpdateCardRequest(
         val language: String,
         val original: String,
         val translation: String,

@@ -1,12 +1,9 @@
 package com.guacamole.controller.cards
 
-import com.guacamole.controller.cards.model.CreateCardRequest
+import com.guacamole.controller.cards.model.CreateOrUpdateCardRequest
 import com.guacamole.controller.cards.model.CreateCardResponse
 import com.guacamole.controller.cards.repository.CardsRepository
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 class CardsController(
@@ -16,5 +13,11 @@ class CardsController(
     fun get() = cardsRepository.getAll()
 
     @PostMapping("/cards")
-    fun create(@RequestBody request: CreateCardRequest) = CreateCardResponse(cardsRepository.create(request))
+    fun create(@RequestBody request: CreateOrUpdateCardRequest) = CreateCardResponse(cardsRepository.create(request))
+
+    @PutMapping("/cards/{id}")
+    fun update(@PathVariable id: String, @RequestBody request: CreateOrUpdateCardRequest) = cardsRepository.update(id, request)
+
+    @DeleteMapping("/cards/{id}")
+    fun delete(@PathVariable id: String) = cardsRepository.delete(id)
 }

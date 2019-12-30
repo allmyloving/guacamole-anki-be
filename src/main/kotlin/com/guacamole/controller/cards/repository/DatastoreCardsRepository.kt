@@ -3,10 +3,11 @@ package com.guacamole.controller.cards.repository
 import com.google.cloud.Timestamp
 import com.google.cloud.datastore.Datastore
 import com.google.cloud.datastore.Entity
+import com.google.cloud.datastore.Key
 import com.google.cloud.datastore.Query
 import com.guacamole.controller.cards.model.CardModel
 import com.guacamole.controller.cards.model.CardsModel
-import com.guacamole.controller.cards.model.CreateCardRequest
+import com.guacamole.controller.cards.model.CreateOrUpdateCardRequest
 import org.springframework.stereotype.Repository
 
 
@@ -36,18 +37,37 @@ class DatastoreCardsRepository(private val datastore: Datastore) : CardsReposito
 
     }
 
-    override fun create(request: CreateCardRequest): String {
+    override fun create(request: CreateOrUpdateCardRequest): String {
+        // TODO Make KeyFactory a bean
         val keyFactory = datastore.newKeyFactory()
                 .setKind("Card")
         val key = datastore.allocateId(keyFactory.newKey())
-        val newCard = Entity.newBuilder(key)
-                .set("word", request.original)
-                .set("translation", request.translation)
-                .set("language", request.language)
-                .set("definition", request.definition)
-                .set("example", request.example)
-                .set("dateAdded", Timestamp.now())
+        return datastore.add(request.toEntity(key))
+                .key.id.toString()
+    }
+
+    override fun update(id: String, request: CreateOrUpdateCardRequest) {
+        val key = datastore.newKeyFactory()
+                .setKind("Card")
+                .newKey(id.toLong())
+        datastore.update(request.toEntity(key))
+    }
+
+    override fun delete(id: String) {
+        val key = datastore.newKeyFactory()
+                .setKind("Card")
+                .newKey(id.toLong())
+        datastore.delete(key)
+    }
+
+    private fun CreateOrUpdateCardRequest.toEntity(key: Key): Entity? {
+        return Entity.newBuilder(key)
+                .set("word", original)
+                .set("translation", translation)
+                .set("language", language)
+                .set("definition", definition)
+                .set("example", example)
+                .set("lastModified", Timestamp.now())
                 .build()
-        return datastore.add(newCard).key.id.toString()
     }
 }
