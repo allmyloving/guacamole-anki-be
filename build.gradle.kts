@@ -52,7 +52,7 @@ configure<AppEngineStandardExtension> {
     deploy {
         projectId = "guacamole-app"
         stopPreviousVersion = true
-        version = "GCLOUD_CONFIG"
+        version = "v1"
         promote = true
     }
 }
