@@ -1,10 +1,8 @@
 package com.guacamole.cards.repository
 
 import com.google.cloud.Timestamp
-import com.google.cloud.datastore.Datastore
-import com.google.cloud.datastore.Entity
-import com.google.cloud.datastore.Key
-import com.google.cloud.datastore.Query
+import com.google.cloud.datastore.*
+import com.google.cloud.datastore.StructuredQuery.OrderBy.*
 import com.guacamole.cards.domain.Card
 import com.guacamole.cards.domain.RevisionPeriod
 import com.guacamole.cards.model.ChangeRevisionPeriodRequest
@@ -13,12 +11,12 @@ import org.springframework.stereotype.Repository
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 
-
 @Repository
 class DatastoreCardsRepository(private val datastore: Datastore) : CardsRepository {
     override fun getAll(): List<Card> {
         val query = Query.newEntityQueryBuilder()
                 .setKind("Card")
+                .addOrderBy(asc("nextRevision"))
                 .build();
         val cards = mutableListOf<Card>()
         val queryResults = datastore.run(query)
@@ -48,7 +46,7 @@ class DatastoreCardsRepository(private val datastore: Datastore) : CardsReposito
 
         val key = datastore.allocateId(keyFactory.newKey())
         val entity = request.toEntity(key)
-                .set("nextRevision", daysFromToday(1))
+                .set("nextRevision", daysFromToday(0))
                 .set("revisionPeriod", RevisionPeriod.ONE_DAY.name)
                 .build()
         return datastore.add(entity).key.id.toString()
