@@ -46,7 +46,7 @@ class DatastoreCardsRepository(private val datastore: Datastore) : CardsReposito
 
         val key = datastore.allocateId(keyFactory.newKey())
         val entity = request.toEntity(key)
-                .set("nextRevision", daysFromToday(0))
+                .set("nextRevision", Instant.now().toTimestamp())
                 .set("revisionPeriod", RevisionPeriod.ONE_DAY.name)
                 .build()
         return datastore.add(entity).key.id.toString()
@@ -56,7 +56,12 @@ class DatastoreCardsRepository(private val datastore: Datastore) : CardsReposito
         val key = datastore.newKeyFactory()
                 .setKind("Card")
                 .newKey(id.toLong())
-        datastore.update(request.toEntity(key).build())
+
+        val entity = datastore.get(key).toCard()
+        datastore.update(request.toEntity(key)
+                .set("nextRevision", entity.nextRevision.toTimestamp())
+                .set("revisionPeriod", entity.revisionPeriod.toString())
+                .build())
     }
 
     override fun delete(id: String) {
@@ -66,9 +71,9 @@ class DatastoreCardsRepository(private val datastore: Datastore) : CardsReposito
         datastore.delete(key)
     }
 
-    private fun daysFromToday(days: Int) = Instant.now().plus(days.toLong(), ChronoUnit.DAYS).let {
-        Timestamp.ofTimeSecondsAndNanos(it.epochSecond, it.nano)
-    }
+    private fun daysFromToday(days: Int) = Instant.now().plus(days.toLong(), ChronoUnit.DAYS).toTimestamp()
+
+    private fun Instant.toTimestamp() = Timestamp.ofTimeSecondsAndNanos(epochSecond, nano)
 
     override fun changeRevisionPeriod(id: String, request: ChangeRevisionPeriodRequest) {
         val key = datastore.newKeyFactory()

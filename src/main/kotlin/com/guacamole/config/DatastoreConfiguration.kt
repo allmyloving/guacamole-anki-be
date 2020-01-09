@@ -7,5 +7,5 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class DatastoreConfiguration {
     @Bean
-    fun datastore() = DatastoreOptions.getDefaultInstance().getService();
+    fun datastore() = DatastoreOptions.getDefaultInstance().service;
 }
