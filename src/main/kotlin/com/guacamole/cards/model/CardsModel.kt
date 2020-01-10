@@ -14,7 +14,8 @@ data class CardsModel(val cards: List<CardModel>) {
                             translation = it.translation,
                             example = it.example,
                             definition = it.definition,
-                            readyForRevision = it.nextRevision.isBefore(Instant.now())
+                            readyForRevision = it.nextRevision.isBefore(Instant.now()),
+                            tags = it.tags
                     )
                 }
         )
@@ -28,5 +29,6 @@ data class CardModel(
         val translation: String,
         val example: String,
         val definition: String,
-        val readyForRevision: Boolean
+        val readyForRevision: Boolean,
+        val tags: List<String>
 )

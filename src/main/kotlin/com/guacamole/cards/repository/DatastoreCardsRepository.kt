@@ -35,7 +35,8 @@ class DatastoreCardsRepository(private val datastore: Datastore) : CardsReposito
                 definition = getString("definition"),
                 translation = getString("translation"),
                 nextRevision = Instant.ofEpochSecond(getTimestamp("nextRevision").seconds),
-                revisionPeriod = RevisionPeriod.valueOf(getString("revisionPeriod"))
+                revisionPeriod = RevisionPeriod.valueOf(getString("revisionPeriod")),
+                tags = if(contains("tags")) getString("tags").split(",") else emptyList()
         )
     }
 
@@ -95,5 +96,6 @@ class DatastoreCardsRepository(private val datastore: Datastore) : CardsReposito
             .set("language", language)
             .set("definition", definition)
             .set("example", example)
+            .set("tags", tags.joinToString(","))
             .set("lastModified", Timestamp.now())
 }

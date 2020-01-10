@@ -5,5 +5,6 @@ data class CreateOrUpdateCardRequest(
         val original: String,
         val translation: String,
         val example: String?,
-        val definition: String?
+        val definition: String?,
+        val tags: List<String>
 )

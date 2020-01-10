@@ -10,5 +10,6 @@ data class Card(
         val example: String,
         val definition: String,
         val nextRevision: Instant,
-        val revisionPeriod: RevisionPeriod
+        val revisionPeriod: RevisionPeriod,
+        val tags: List<String>
 )
